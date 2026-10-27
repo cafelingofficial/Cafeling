@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caféling</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>☕ Caféling</h1>
+    <p>Online Café Ordering System</p>
+</header>
+
+<nav class="order-steps">
+    <span class="active">1. Menu</span>
+    <span>2. Review</span>
+    <span>3. Details</span>
+    <span>4. Done</span>
+</nav>
+
+<main>
+
+    <!-- MENU SECTION -->
+    <section id="menuSection">
+
+        <div class="category-filters">
+            <button onclick="showCategory('hotCoffee', this)" class="active">Hot Coffee</button>
+            <button onclick="showCategory('icedDrinks', this)">Ice Drinks</button>
+            <button onclick="showCategory('breadPastry', this)">Bread &amp; Pastry</button>
+        </div>
+
+        <!-- HOT COFFEE: 4 PRODUCTS -->
+        <section id="hotCoffee" class="category">
+            <h2>☕ Hot Coffee</h2>
+
+            <div class="item-container">
+
+                <!-- AMERICANO -->
+                <article class="item-card" data-product="Americano">
+                    <img src="https://www.coffeebeans.ph/storage/2023/07/americano-530x530.jpg" alt="Americano">
+                    <div class="item-info">
+                        <h3>Americano</h3>
+                        <p class="price">₱80.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Americano')">−</button>
+                            <span id="qty-Americano">0</span>
+                            <button data-add-product="Americano" onclick="increaseProduct('Americano')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SPANISH LATTE -->
+                <article class="item-card" data-product="Spanish Latte">
+                    <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=700&q=80" alt="Spanish Latte" class="product-image">
+                    <div class="item-info">
+                        <h3>Spanish Latte</h3>
+                        <p class="price">₱90.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Spanish Latte')">−</button>
+                            <span id="qty-Spanish-Latte">0</span>
+                            <button data-add-product="Spanish Latte" onclick="increaseProduct('Spanish Latte')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CAPPUCCINO -->
+                <article class="item-card" data-product="Cappuccino">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=700&q=80" alt="Cappuccino" class="product-image">
+                    <div class="item-info">
+                        <h3>Cappuccino</h3>
+                        <p class="price">₱90.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Cappuccino')">−</button>
+                            <span id="qty-Cappuccino">0</span>
+                            <button data-add-product="Cappuccino" onclick="increaseProduct('Cappuccino')">+</button>
+                        </div>
+                    </div>
+                </article>
+<!-- VANILLA LATTE -->
+                <article class="item-card" data-product="Vanilla Latte">
+                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=700&q=80" alt="Vanilla Latte" class="product-image">
+                    <div class="item-info">
+                        <h3>Vanilla Latte</h3>
+                        <p class="price">₱100.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Vanilla Latte')">−</button>
+                            <span id="qty-Vanilla-Latte">0</span>
+                            <button data-add-product="Vanilla Latte" onclick="increaseProduct('Vanilla Latte')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+                
+
+            <!-- SUGAR LEVEL: HOT COFFEE -->
+            <div class="sugar-panel">
+                <h3>🍬 Sugar Level</h3>
+                <label><input type="radio" name="sugarLevel" value="25% Sugar"> 25% Sugar</label>
+                <label><input type="radio" name="sugarLevel" value="50% Sugar"> 50% Sugar</label>
+                <label><input type="radio" name="sugarLevel" value="75% Sugar" checked> 75% Sugar</label>
+                <label><input type="radio" name="sugarLevel" value="100% Sugar"> 100% Sugar</label>
+            </div>
+        </section>
+
+        <!-- ICE DRINKS: 4 PRODUCTS -->
+        <section id="icedDrinks" class="category" hidden>
+            <h2>🧊 Ice Drinks</h2>
+
+            <div class="item-container">
+
+                <!-- ICE COFFEE -->
+                <article class="item-card" data-product="Ice coffee">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80" alt="Ice Coffee">
+                    <div class="item-info">
+                        <h3>Ice Coffee</h3>
+                        <p class="price">₱85.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Ice coffee')">−</button>
+                            <span id="qty-Ice-coffee">0</span>
+                            <button data-add-product="Ice coffee" onclick="increaseProduct('Ice coffee')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ICED MATCHA LATTE -->
+                <article class="item-card" data-product="Iced Matcha Latte">
+                    <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80" alt="Iced Matcha Latte">
+                    <div class="item-info">
+                        <h3>Iced Matcha Latte</h3>
+                        <p class="price">₱95.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Iced Matcha Latte')">−</button>
+                            <span id="qty-Iced-Matcha-Latte">0</span>
+                            <button data-add-product="Iced Matcha Latte" onclick="increaseProduct('Iced Matcha Latte')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CARAMEL MACCHIATO -->
+                <article class="item-card" data-product="Caramel Macchiato">
+                    <img src="https://images.unsplash.com/photo-1599398054066-846f28917f38?auto=format&fit=crop&w=700&q=80" alt="Caramel Macchiato" class="product-image">
+                    <div class="item-info">
+                        <h3>Caramel Macchiato</h3>
+                        <p class="price">₱110.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Caramel Macchiato')">−</button>
+                            <span id="qty-Caramel-Macchiato">0</span>
+                            <button data-add-product="Caramel Macchiato" onclick="increaseProduct('Caramel Macchiato')">+</button>
+                        </div>
+                    </div>
+                </article>
+<!-- WHITE CHOCOLATE MOCHA -->
+                <article class="item-card" data-product="White Chocolate Mocha">
+                    <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=700&q=80" alt="White Chocolate Mocha" class="product-image">
+                    <div class="item-info">
+                        <h3>White Chocolate Mocha</h3>
+                        <p class="price">₱120.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('White Chocolate Mocha')">−</button>
+                            <span id="qty-White-Chocolate-Mocha">0</span>
+                            <button data-add-product="White Chocolate Mocha" onclick="increaseProduct('White Chocolate Mocha')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+                
+            <!-- SUGAR LEVEL: ICE DRINKS -->
+            <div class="sugar-panel">
+                <h3>🍬 Sugar Level</h3>
+                <label><input type="radio" name="sugarLevel" value="25% Sugar"> 25% Sugar</label>
+                <label><input type="radio" name="sugarLevel" value="50% Sugar"> 50% Sugar</label>
+                <label><input type="radio" name="sugarLevel" value="75% Sugar"> 75% Sugar</label>
+                <label><input type="radio" name="sugarLevel" value="100% Sugar" checked> 100% Sugar</label>
+            </div>
+        </section>
+
+        <!-- BREAD & PASTRY (WALANG SUGAR LEVEL) -->
+        <section id="breadPastry" class="category" hidden>
+            <h2>🥐 Bread &amp; Pastry</h2>
+
+            <div class="item-container">
+
+                <!-- CHOCOLATE CROISSANT -->
+                <article class="item-card" data-product="Chocolate Croissant">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=80" alt="Chocolate Croissant">
+                    <div class="item-info">
+                        <h3>Chocolate Croissant</h3>
+                        <p class="price">₱75.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Chocolate Croissant')">−</button>
+                            <span id="qty-Chocolate-Croissant">0</span>
+                            <button data-add-product="Chocolate Croissant" onclick="increaseProduct('Chocolate Croissant')">+</button>
+                        </div>
+                    </div>
+                </article>
+                          
+                <!-- CHEESE BREAD -->
+<article class="item-card" data-product="Cheese Bread">
+    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=700&q=80?cb=999" alt="Cheese Bread">
+    <div class="item-info">
+        <h3>Cheese Bread</h3>
+        <p class="price">₱60.00</p>
+        <p data-stock-status>Available</p>
+
+        <div class="quantity-controls">
+            <button onclick="decreaseProduct('Cheese Bread')">−</button>
+            <span id="qty-Cheese-Bread">0</span>
+            <button data-add-product="Cheese Bread" onclick="increaseProduct('Cheese Bread')">+</button>
+        </div>
+    </div>
+</article>
+        
+                                            
+         <!-- CINNAMON ROLL -->
+                <article class="item-card" data-product="Cinnamon Roll">
+                    <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=700&q=80" alt="Cinnamon Roll">
+                    <div class="item-info">
+                        <h3>Cinnamon Roll</h3>
+                        <p class="price">₱70.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Cinnamon Roll')">−</button>
+                            <span id="qty-Cinnamon-Roll">0</span>
+                            <button data-add-product="Cinnamon Roll" onclick="increaseProduct('Cinnamon Roll')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BLUEBERRY MUFFIN -->
+                <article class="item-card" data-product="Blueberry Muffin">
+                    <img src="https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=700&q=80" alt="Blueberry Muffin" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=700&q=80';">
+                    <div class="item-info">
+                        <h3>Blueberry Muffin</h3>
+                        <p class="price">₱65.00</p>
+                        <p data-stock-status>Available</p>
+
+                        <div class="quantity-controls">
+                            <button onclick="decreaseProduct('Blueberry Muffin')">−</button>
+                            <span id="qty-Blueberry-Muffin">0</span>
+                            <button data-add-product="Blueberry Muffin" onclick="increaseProduct('Blueberry Muffin')">+</button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </section>
+
+    <!-- REVIEW ORDER -->
+    <section id="reviewSection" hidden>
+        <h2>Review Your Order</h2>
+        <div id="reviewItems"></div>
+        <p>Items: <span id="reviewQuantity">0</span></p>
+        <h3>Total: ₱<span id="reviewTotal">0.00</span></h3>
+
+        <button onclick="goToMenu()">Back to Menu</button>
+        <button onclick="goToDetails()">Continue</button>
+    </section>
+
+    <!-- CUSTOMER DETAILS -->
+    <section id="detailsSection" hidden>
+        <h2>Customer Details</h2>
+
+        <label for="customerName">Your Name</label>
+        <input type="text" id="customerName" placeholder="Enter your full name (first name and surname)" required>
+
+        <label for="tableNumber" style="margin-top: 15px; display: block;">Table Number (1 - 10)</label>
+        <input type="number" id="tableNumber" placeholder="Enter your table number" min="1" max="10" required>
+
+        <!-- NEW: GMAIL ADDRESS -->
+        <label for="customerEmail" style="margin-top: 15px; display: block;">Gmail Address</label>
+        <input type="email" id="customerEmail" placeholder="e.g. juandelacruz453@gmail.com" required>
+        <small id="emailHint" style="display: block; margin-top: 6px;">Use a Gmail based on your full name (first name and surname). A name only or a name with numbers only, like juan@gmail.com or juan123@gmail.com, is not accepted.</small>
+
+        <!-- NEW: PAYMENT METHOD -->
+        <label for="paymentMethod" style="margin-top: 15px; display: block;">Payment Method</label>
+        <select id="paymentMethod" required>
+            <option value="">Select payment method</option>
+            <option value="Cash">Cash</option>
+            <option value="GCash">GCash</option>
+        </select>
+
+        <!-- GCASH NUMBER BOX (Lalabas lang kapag GCash ang pinili) -->
+        <div id="gcashNumberInfoBox" style="background: #fdf8f5; padding: 12px; border-radius: 8px; margin-top: 10px; border: 1px solid #d4a373;" hidden>
+            <small style="color: #5c4033; font-weight: bold; display: block; margin-bottom: 4px;">📱 Send GCash Payment To:</small>
+            <span style="font-size: 16px; color: #333; font-weight: bold;">0970-878-8486 (R**N.D)</span>
+        </div>
+
+        <!-- NEW: GCASH RECEIPT UPLOAD (lalabas lang kapag GCash ang pinili) -->
+        <div id="gcashReceiptBox" hidden>
+            <label for="gcashReceipt" style="margin-top: 15px; display: block;">GCash Receipt (required)</label>
+            <input type="file" id="gcashReceipt" accept="image/*">
+            <img id="gcashReceiptPreview" alt="GCash receipt preview" hidden style="margin-top: 10px; max-width: 100%; max-height: 260px; border-radius: 8px;">
+        </div>
+
+      
+        <p id="detailsMessage"></p>
+
+        <button onclick="goToReview()">Back</button>
+        <button onclick="placeOrder()">Place Order</button>
+    </section>
+
+    <!-- ORDER COMPLETE -->
+    <section id="doneSection" hidden>
+        <h2>✅ Order Placed!</h2>
+        <p>Order Number: <strong id="confirmedOrderNumber"></strong></p>
+        <p>Customer: <span id="confirmedCustomerName"></span></p>
+        <div id="confirmedOrderItems"></div>
+        <h3>Total: ₱<span id="confirmedOrderTotal">0.00</span></h3>
+        <p id="payNotice">Please pay the staff face-to-face.</p>
+        
+
+        <button onclick="startNewOrder()">Start New Order</button>
+    </section>
+
+</main>
+
+<!-- FIXED ORDER SUMMARY BAR -->
+<div class="order-summary-bar" id="orderSummaryBar">
+    <div>
+        <small>Your Order</small>
+        <p>
+            <strong>
+                <span id="cartQuantity">0</span>
+                <span id="cartItemWord">items selected</span>
+            </strong>
+        </p>
+        <strong>₱<span id="cartTotal">0.00</span></strong>
+    </div>
+
+    <button id="viewOrderBtn" onclick="goToReview()">
+        View Order →
+    </button>
+
+    <p id="cartMessage"></p>
+</div>
+
+<div id="notification" hidden></div>
+<div id="orderSummary" hidden></div>
+
+<!-- Pang-show/hide ng GCash info box, receipt box at preview -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var method = document.getElementById("paymentMethod");
+    var numberBox = document.getElementById("gcashNumberInfoBox");
+    var box = document.getElementById("gcashReceiptBox");
+    var file = document.getElementById("gcashReceipt");
+    var preview = document.getElementById("gcashReceiptPreview");
+    var note = document.getElementById("paymentNote");
+
+    var gcashText = "Pay via GCash, then upload your receipt below. Staff will verify your payment before your confirmation email is sent.";
+
+    function updatePaymentUI() {
+        var isGcash = method.value === "GCash";
+        numberBox.hidden = !isGcash;
+        box.hidden = !isGcash;
+        note.textContent = isGcash ? gcashText : cashText;
+        if (!isGcash) {
+            file.value = "";
+            preview.hidden = true;
+            preview.removeAttribute("src");
+        }
+    }
+
+    method.addEventListener("change", updatePaymentUI);
+
+    file.addEventListener("change", function () {
+        var f = file.files && file.files[0];
+        if (!f) {
+            preview.hidden = true;
+            preview.removeAttribute("src");
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.hidden = false;
+        };
+        reader.readAsDataURL(f);
+    });
+
+    updatePaymentUI();
+});
+</script>
+
+</body>
+</html>

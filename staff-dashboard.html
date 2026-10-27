@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caféling Staff Dashboard</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    background: #f5e5d0;
+    color: #2f241f;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .6; cursor: not-allowed; }
+.hidden { display: none !important; }
+
+.login-wrapper {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px #0002;
+}
+
+.brand {
+    text-align: center;
+    color: #6b4934;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin: 15px 0 6px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbb8a5;
+    border-radius: 8px;
+    background: white;
+    color: #2f241f;
+}
+
+.password-row {
+    display: flex;
+    gap: 6px;
+}
+
+.password-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+.password-row button {
+    border: none;
+    border-radius: 8px;
+    padding: 0 12px;
+    background: #e9ded2;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background: #6b4934;
+    color: white;
+    font-weight: bold;
+}
+
+header {
+    background: #6b4934;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.topbar p { margin-bottom: 0; }
+
+.logout-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: #6b4934;
+    font-weight: bold;
+}
+
+.panel, .stat-card {
+    background: white;
+    padding: 18px;
+    border-radius: 13px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 10px #0001;
+}
+
+.panel h2 { margin-top: 0; color: #4d3426; }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.stat-card {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #777;
+    margin-top: 0;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6b4934;
+    margin-bottom: 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.product-card, .order-card {
+    border: 1px solid #e0d0c1;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.product-card h3, .order-card h3 {
+    margin-top: 0;
+    color: #6b4934;
+}
+
+.product-price { font-weight: bold; }
+
+.status-badge, .order-status {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 6px 0;
+}
+
+.status-available {
+    background: #d9f2df !important;
+    color: #17692b !important;
+}
+
+.status-unavailable {
+    background: #fff0cf !important;
+    color: #855800 !important;
+}
+
+.status-out {
+    background: #f9dada !important;
+    color: #a32121 !important;
+}
+
+.action-btn {
+    background: #6b4934;
+    color: white;
+    border: none;
+    padding: 10px 13px;
+    border-radius: 7px;
+    margin: 5px 0;
+}
+
+.save-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.message {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+}
+
+.error-text { color: #b42318; }
+.success-text { color: #17692b; }
+
+/* NEW: PAYMENT INFO, RECEIPT PREVIEW, SEND CONFIRMATION */
+
+.payment-box {
+    margin: 10px 0;
+    padding: 10px 12px;
+    background: #fffaf5;
+    border: 1px solid #e0d0c1;
+    border-radius: 8px;
+}
+
+.payment-box p { margin: 4px 0; }
+
+.pay-badge {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pay-paid {
+    background: #d9f2df;
+    color: #17692b;
+}
+
+.pay-pending {
+    background: #fff0cf;
+    color: #855800;
+}
+
+.receipt-img {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin-top: 8px;
+    border: 1px solid #e0d0c1;
+    border-radius: 8px;
+}
+
+.receipt-link {
+    display: inline-block;
+    margin-top: 6px;
+    color: #6b4934;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.send-btn { margin-right: 8px; }
+
+@media (max-width: 600px) {
+    body { padding: 10px; }
+
+    .stats, .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel { padding: 14px; }
+    .topbar h1 { font-size: 21px; }
+}
+</style>
+</head>
+
+<body>
+
+<section id="loginPage" class="login-wrapper">
+    <div class="login-box">
+        <div class="brand">☕ Caféling</div>
+        <p class="subtitle">Staff &amp; Admin Login</p>
+
+        <form id="loginForm">
+            <label for="username">Username</label>
+            <input id="username" type="text"
+                   autocomplete="username" required>
+
+            <label for="password">Password</label>
+
+            <div class="password-row">
+                <input id="password" type="password"
+                       minlength="8"
+                       autocomplete="current-password" required>
+                <button type="button" id="togglePassword">Show</button>
+            </div>
+
+            <button type="submit" class="primary-btn">Login</button>
+            <p id="loginError" class="message error-text"></p>
+        </form>
+    </div>
+</section>
+
+<section id="dashboardPage" class="hidden">
+
+    <header>
+        <div class="topbar">
+            <div>
+                <h1>☕ Caféling Staff Dashboard</h1>
+                <p>Welcome, Admin!</p>
+            </div>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Orders</h3>
+            <p id="totalOrders">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Total Sales</h3>
+            <p id="totalSales">₱0.00</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Pending Orders</h3>
+            <p id="pendingOrders">0</p>
+        </div>
+    </div>
+
+    <section class="panel">
+        <h2>☕ Product Availability</h2>
+        <p>Choose a status, then press Save Status.</p>
+
+        <button id="refreshProductsBtn" class="action-btn">
+            🔄 Refresh Products
+        </button>
+
+        <p id="saveMessage" class="message"></p>
+
+        <div id="productGrid" class="product-grid">
+            Loading products...
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>📋 Customer Orders</h2>
+
+        <button id="refreshBtn" class="action-btn">
+            🔄 Refresh Orders
+        </button>
+
+        <p id="ordersMessage" class="message"></p>
+        <div id="ordersList">Loading orders...</div>
+    </section>
+
+</section>
+
+<script>
+"use strict";
+
+const API_URL = "https://cafelling-backend.onrender.com/api";
+
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "CafeAdmin2026";
+
+const $ = id => document.getElementById(id);
+
+let products = [];
+let orders = [];
+let autoRefreshTimer = null;
+
+// NEW: para hindi mawala ang bukas na receipt / "Sending..." kapag nag-refresh ang orders
+const receiptCache = {};
+const receiptBlobUrls = {};
+const openReceipts = new Set();
+const sendingConfirmations = new Set();
+
+
+/* API CONNECTION */
+
+async function apiRequest(url, options = {}) {
+    let response;
+
+    try {
+        response = await fetch(url, {
+            ...options,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            }
+        });
+    } catch (error) {
+        throw new Error(
+            "Hindi makakonekta sa Render. Subukan ulit."
+        );
+    }
+
+    const text = await response.text();
+    let data = {};
+
+    try {
+        data = text ? JSON.parse(text) : {};
+    } catch {
+        throw new Error("Invalid response mula sa server.");
+    }
+
+    if (!response.ok) {
+        throw new Error(
+            data.error || data.message || `HTTP ${response.status}`
+        );
+    }
+
+    return data;
+}
+
+
+/* LOGIN */
+
+$("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (
+        $("username").value.trim() !== ADMIN_USERNAME ||
+        $("password").value !== ADMIN_PASSWORD
+    ) {
+        $("loginError").textContent =
+            "Incorrect username or password.";
+        return;
+    }
+
+    $("loginError").textContent = "";
+    $("loginPage").classList.add("hidden");
+    $("dashboardPage").classList.remove("hidden");
+
+    await loadDashboard();
+
+    if (!autoRefreshTimer) {
+        autoRefreshTimer = setInterval(loadOrders, 5000);
+    }
+});
+
+$("togglePassword").addEventListener("click", () => {
+    const input = $("password");
+    const show = input.type === "password";
+
+    input.type = show ? "text" : "password";
+    $("togglePassword").textContent = show ? "Hide" : "Show";
+});
+
+$("logoutBtn").addEventListener("click", () => {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+        autoRefreshTimer = null;
+    }
+    $("dashboardPage").classList.add("hidden");
+    $("loginPage").classList.remove("hidden");
+    $("loginForm").reset();
+    $("loginError").textContent = "";
+    $("password").type = "password";
+    $("togglePassword").textContent = "Show";
+});
+
+
+/* LOAD DASHBOARD */
+
+async function loadDashboard() {
+    await Promise.all([
+        loadProducts(),
+        loadOrders()
+    ]);
+}
+
+
+/* PRODUCT AVAILABILITY */
+
+function statusClass(status) {
+    const cleanStatus = String(status || "").trim().toLowerCase();
+    if (cleanStatus === "out of stock") return "status-out";
+    if (cleanStatus === "unavailable") return "status-unavailable";
+    return "status-available";
+}
+
+async function loadProducts() {
+    const grid = $("productGrid");
+
+    try {
+        const data = await apiRequest(`${API_URL}/products`);
+
+        if (!Array.isArray(data)) {
+            throw new Error("Invalid product data.");
+        }
+
+        products = data;
+        renderProducts();
+    } catch (error) {
+        grid.textContent = "Hindi ma-load ang products.";
+        $("saveMessage").textContent = error.message;
+        $("saveMessage").className = "message error-text";
+    }
+}
+
+function renderProducts() {
+    const grid = $("productGrid");
+    grid.replaceChildren();
+
+    if (products.length === 0) {
+        grid.textContent = "No products found.";
+        return;
+    }
+
+    products.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        const name = document.createElement("h3");
+        name.textContent = product.name;
+
+        const price = document.createElement("p");
+        price.className = "product-price";
+        price.textContent = `₱${Number(product.price).toFixed(2)}`;
+
+        const badge = document.createElement("span");
+        badge.className = `status-badge ${statusClass(product.availability)}`;
+        badge.textContent = product.availability || "Available";
+
+        const select = document.createElement("select");
+
+        ["Available", "Unavailable", "Out of Stock"].forEach(value => {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            option.selected = value === (product.availability || "Available");
+            select.appendChild(option);
+        });
+
+        const save = document.createElement("button");
+        save.className = "action-btn save-btn";
+        save.textContent = "Save Status";
+
+        const message = document.createElement("p");
+        message.className = "message";
+
+        save.addEventListener("click", async () => {
+            const newStatus = select.value;
+
+            save.disabled = true;
+            select.disabled = true;
+            save.textContent = "Saving...";
+            message.textContent = "";
+
+            try {
+                const encodedName = encodeURIComponent(product.name);
+
+                const result = await apiRequest(
+                    `${API_URL}/products/${encodedName}/availability`,
+                    {
+                        method: "PATCH",
+                        body: JSON.stringify({
+                            availability: newStatus
+                        })
+                    }
+                );
+
+                if (result.availability !== newStatus) {
+                    throw new Error("Hindi nakumpirma ang bagong status.");
+                }
+
+                const verified = await apiRequest(
+                    `${API_URL}/products/${encodedName}`
+                );
+
+                if (verified.availability !== newStatus) {
+                    throw new Error("Hindi tugma ang status sa database.");
+                }
+
+                product.availability = verified.availability;
+                badge.textContent = verified.availability;
+                badge.className = `status-badge ${statusClass(verified.availability)}`;
+                select.value = verified.availability;
+
+                message.textContent = "✓ Saved and verified from Render.";
+                message.className = "message success-text";
+
+                $("saveMessage").textContent = `${product.name} saved as ${newStatus}.`;
+                $("saveMessage").className = "message success-text";
+
+            } catch (error) {
+                message.textContent = "Hindi na-save: " + error.message;
+                message.className = "message error-text";
+
+                $("saveMessage").textContent = `Failed to save ${product.name}: ${error.message}`;
+                $("saveMessage").className = "message error-text";
+
+            } finally {
+                save.disabled = false;
+                select.disabled = false;
+                save.textContent = "Save Status";
+            }
+        });
+
+        card.append(name, price, badge, select, save, message);
+        grid.appendChild(card);
+    });
+}
+
+
+/* DATE AND TIME */
+
+function formatOrderDate(value) {
+    if (!value) return "Not available";
+
+    let dateString = String(value).trim();
+
+    if (
+        !dateString.endsWith("Z") &&
+        !/[+-]\d{2}:\d{2}$/.test(dateString)
+    ) {
+        dateString = dateString.replace(" ", "T") + "Z";
+    }
+
+    const date = new Date(dateString);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString("en-PH", {
+        timeZone: "Asia/Manila",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+    });
+}
+
+
+/* NEW: PAYMENT, RECEIPT AND GMAIL CONFIRMATION */
+
+function dataUrlToBlobUrl(dataUrl) {
+    const [header, base64] = dataUrl.split(",");
+    const mimeMatch = header.match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : "image/jpeg";
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+
+    return URL.createObjectURL(new Blob([bytes], { type: mime }));
+}
+
+function buildPaymentBox(order) {
+    const box = document.createElement("div");
+    box.className = "payment-box";
+
+    const method = document.createElement("p");
+    method.textContent = `Payment Method: ${order.paymentMethod || "Cash"}`;
+
+    const statusLine = document.createElement("p");
+    const paymentStatus = order.paymentStatus || "Pending";
+    statusLine.append("Payment Status: ");
+
+    const badge = document.createElement("span");
+    badge.className = "pay-badge " + (paymentStatus === "Paid" ? "pay-paid" : "pay-pending");
+    badge.textContent = paymentStatus;
+    statusLine.appendChild(badge);
+
+    box.append(method, statusLine);
+    return box;
+}
+
+function buildReceiptSection(order) {
+    const wrap = document.createElement("div");
+
+    if (order.hasReceipt === false) {
+        const none = document.createElement("p");
+        none.className = "message error-text";
+        none.textContent = "No GCash receipt was uploaded for this order.";
+        wrap.appendChild(none);
+        return wrap;
+    }
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "action-btn";
+
+    const holder = document.createElement("div");
+    const message = document.createElement("p");
+    message.className = "message";
+
+    function showReceipt(dataUrl) {
+        holder.replaceChildren();
+
+        const img = document.createElement("img");
+        img.className = "receipt-img";
+        img.alt = `GCash receipt for Order #${order.orderNumber || order.id}`;
+        img.src = dataUrl;
+        holder.appendChild(img);
+
+        if (!receiptBlobUrls[order.id]) {
+            try {
+                receiptBlobUrls[order.id] = dataUrlToBlobUrl(dataUrl);
+            } catch (e) {
+                receiptBlobUrls[order.id] = "";
+            }
+        }
+
+        if (receiptBlobUrls[order.id]) {
+            const link = document.createElement("a");
+            link.className = "receipt-link";
+            link.textContent = "Open full size";
+            link.href = receiptBlobUrls[order.id];
+            link.target = "_blank";
+            link.rel = "noopener";
+            holder.appendChild(link);
+        }
+    }
+
+    const alreadyOpen = openReceipts.has(order.id) && receiptCache[order.id];
+    toggle.textContent = alreadyOpen ? "Hide Receipt" : "View GCash Receipt";
+    if (alreadyOpen) {
+        showReceipt(receiptCache[order.id]);
+    }
+
+    toggle.addEventListener("click", async () => {
+        if (openReceipts.has(order.id)) {
+            openReceipts.delete(order.id);
+            holder.replaceChildren();
+            toggle.textContent = "View GCash Receipt";
+            return;
+        }
+
+        if (!receiptCache[order.id]) {
+            toggle.disabled = true;
+            toggle.textContent = "Loading...";
+            message.textContent = "";
+
+            try {
+                const data = await apiRequest(`${API_URL}/orders/${order.id}/receipt`);
+
+                if (!data.receiptImage) {
+                    throw new Error("No receipt image found for this order.");
+                }
+
+                receiptCache[order.id] = data.receiptImage;
+            } catch (error) {
+                message.textContent = error.message;
+                message.className = "message error-text";
+                toggle.disabled = false;
+                toggle.textContent = "View GCash Receipt";
+                return;
+            }
+
+            toggle.disabled = false;
+        }
+
+        openReceipts.add(order.id);
+        showReceipt(receiptCache[order.id]);
+        toggle.textContent = "Hide Receipt";
+    });
+
+    wrap.append(toggle, holder, message);
+    return wrap;
+}
+
+function buildSendConfirmationButton(order) {
+    const method = order.paymentMethod || "Cash";
+    const paymentStatus = order.paymentStatus || "Pending";
+    const orderLabel = order.orderNumber || order.id;
+    const email = order.customerEmail || "";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "action-btn send-btn";
+
+    const isSending = sendingConfirmations.has(order.id);
+
+    if (isSending) {
+        button.textContent = "Sending...";
+        button.disabled = true;
+    } else if (paymentStatus === "Paid") {
+        button.textContent = "Resend Gmail Confirmation";
+    } else {
+        button.textContent = "Send Gmail Confirmation";
+    }
+
+    if (!email) {
+        button.disabled = true;
+        button.title = "This order has no customer email.";
+    }
+button.addEventListener("click", async () => {
+        const question = method === "GCash"
+            ? `Have you verified the GCash payment for Order #${orderLabel}?`
+            : `Have you received the cash payment for Order #${orderLabel}?`;
+
+        if (!confirm(`${question}\n\nA confirmation email will be sent to ${email}.`)) {
+            return;
+        }
+
+        sendingConfirmations.add(order.id);
+        button.disabled = true;
+        button.textContent = "Sending...";
+
+        try {
+            await apiRequest(
+                `${API_URL}/orders/${order.id}/send-confirmation`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({})
+                }
+            );
+
+            $("ordersMessage").textContent =
+                `✓ Confirmation sent to ${email}. Order #${orderLabel} is now Paid.`;
+            $("ordersMessage").className = "message success-text";
+        } catch (error) {
+            $("ordersMessage").textContent =
+                `Hindi naipadala ang email para sa Order #${orderLabel}: ${error.message}`;
+            $("ordersMessage").className = "message error-text";
+        } finally {
+            sendingConfirmations.delete(order.id);
+            await loadOrders();
+        }
+    });
+
+    return button;
+}
+
+
+/* CUSTOMER ORDERS */
+
+async function loadOrders() {
+    try {
+        const data = await apiRequest(`${API_URL}/orders`);
+
+        if (!Array.isArray(data)) {
+            throw new Error("Invalid order data.");
+        }
+
+        orders = data;
+        renderOrders();
+    } catch (error) {
+        $("ordersMessage").textContent = error.message;
+        $("ordersMessage").className = "message error-text";
+    }
+}
+
+function renderOrders() {
+    const list = $("ordersList");
+    list.replaceChildren();
+
+    $("totalOrders").textContent = orders.length;
+
+    const sales = orders
+        .filter(order => order.status !== "Cancelled")
+        .reduce(
+            (sum, order) => sum + Number(order.total || 0),
+            0
+        );
+
+    $("totalSales").textContent = `₱${sales.toFixed(2)}`;
+
+    $("pendingOrders").textContent = orders.filter(
+        order => order.status === "Pending"
+    ).length;
+
+    if (orders.length === 0) {
+        list.textContent = "No customer orders yet.";
+        return;
+    }
+
+    orders.forEach(order => {
+        const card = document.createElement("div");
+        card.className = "order-card";
+
+        const title = document.createElement("h3");
+        title.textContent = `Order #${order.orderNumber || order.id}`;
+
+        const customer = document.createElement("p");
+        customer.textContent = `Customer: ${order.customerName || "Unknown"}`;
+
+        // NEW: Gmail ng customer
+        const emailLine = document.createElement("p");
+        emailLine.textContent = `Gmail: ${order.customerEmail || "No email"}`;
+
+        const date = document.createElement("p");
+        date.textContent = "Date: " + formatOrderDate(order.date);
+
+        const itemsTitle = document.createElement("p");
+        itemsTitle.textContent = "Items:";
+
+        const itemList = document.createElement("ul");
+
+        (Array.isArray(order.items) ? order.items : [])
+            .forEach(item => {
+                const li = document.createElement("li");
+                const quantity = Number(item.quantity || 0);
+                const price = Number(item.price || 0);
+
+                li.textContent = `${item.name} × ${quantity} — ₱${(quantity * price).toFixed(2)}`;
+                itemList.appendChild(li);
+            });
+
+        const total = document.createElement("p");
+        total.textContent = `Total: ₱${Number(order.total || 0).toFixed(2)}`;
+
+        const status = document.createElement("p");
+        status.className = "order-status";
+        status.textContent = `Status: ${order.status}`;
+
+        card.append(title, customer, emailLine, date, itemsTitle, itemList, total);
+
+        // NEW: Payment Method at Payment Status
+        card.appendChild(buildPaymentBox(order));
+
+        // NEW: GCash receipt preview (GCash orders lang)
+        if ((order.paymentMethod || "Cash") === "GCash") {
+            card.appendChild(buildReceiptSection(order));
+        }
+
+        card.appendChild(status);
+
+        // NEW: Send Gmail Confirmation (Cash at GCash)
+        if (order.status !== "Cancelled") {
+            card.appendChild(buildSendConfirmationButton(order));
+        }
+
+        if (
+            order.status !== "Delivered" &&
+            order.status !== "Cancelled"
+        ) {
+            const delivered = document.createElement("button");
+            delivered.className = "action-btn";
+            delivered.textContent = "Mark as Delivered";
+
+            delivered.addEventListener("click", async () => {
+                delivered.disabled = true;
+                delivered.textContent = "Updating...";
+
+                try {
+                    await apiRequest(
+                        `${API_URL}/orders/${order.id}/status`,
+                        {
+                            method: "PATCH",
+                            body: JSON.stringify({
+                                status: "Delivered"
+                            })
+                        }
+                    );
+
+                    await loadOrders();
+
+                } catch (error) {
+                    $("ordersMessage").textContent = error.message;
+                    $("ordersMessage").className = "message error-text";
+
+                    delivered.disabled = false;
+                    delivered.textContent = "Mark as Delivered";
+                }
+            });
+
+            card.appendChild(delivered);
+        }
+
+        list.appendChild(card);
+    });
+}
+
+
+/* REFRESH BUTTONS */
+
+$("refreshBtn").addEventListener("click", loadDashboard);
+$("refreshProductsBtn").addEventListener("click", loadProducts);
+
+</script>
+
+</body>
+</html>
+
+  
